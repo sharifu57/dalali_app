@@ -96,15 +96,10 @@ class _VerifyState extends State<Verify> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Code was sent to"),
-                    Column(
-                      children: [
-                        Text(
-                          " ${widget.phoneNumber}",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text("${widget.otp}")
-                      ],
-                    )
+                    Text(
+                      " ${widget.phoneNumber}",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
@@ -187,9 +182,17 @@ class _VerifyState extends State<Verify> {
 
     _formKey.currentState!.save();
 
+    // Timer(Duration(seconds: 3), () {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    // });
+
     setState(() {
       _isLoading = true;
     });
+
+    dispose();
 
     print("______print otp");
     print(_verifyFormData['otp']);
@@ -215,18 +218,19 @@ class _VerifyState extends State<Verify> {
       if (response != null) {
         print("____response is not null");
         if (response.statusCode == 200) {
-          print("______success");
+          print("_____success");
+          setState(() {
+            _isLoading = false;
+          });
+          print("${response.data?['data']['phone_number']}");
           final SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString("phone", response.data['phone_number']);
-
+          await prefs.setString(
+              "phone_number", response.data?['data']['phone_number']);
           Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  const Screen(), // Replace with the screen you want to navigate to
-            ),
-          );
+              context, MaterialPageRoute(builder: (context) => Screen()));
         } else {
+          print("____failed");
+
           showErrorDialog(response.data['message']);
           setState(() {
             _isLoading = false;
@@ -245,11 +249,6 @@ class _VerifyState extends State<Verify> {
       });
     } catch (error) {
       print("Error during OTP verification: $error");
-      setState(() {
-        _isLoading = false;
-      });
-    } finally {
-      showErrorDialog("Something is not Right");
       setState(() {
         _isLoading = false;
       });

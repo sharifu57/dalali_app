@@ -1,6 +1,6 @@
 import 'package:dalali_app/screens/navigation/bookmark.dart';
 import 'package:dalali_app/screens/navigation/home.dart';
-import 'package:dalali_app/screens/navigation/navigate.dart';
+import 'package:dalali_app/screens/navigation/locations.dart';
 import 'package:dalali_app/screens/navigation/profile.dart';
 import 'package:flutter/material.dart';
 

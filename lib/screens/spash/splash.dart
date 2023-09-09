@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:dalali_app/partials/colors.dart';
 import 'package:dalali_app/screens/authentication/login.dart';
 import 'package:dalali_app/screens/navigation/screen.dart';
-import 'package:dalali_app/service/storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
@@ -43,12 +43,11 @@ class _SplashState extends State<Splash> {
               ),
             ))),
             Container(
-              padding: EdgeInsets.only(bottom: 10),
-              child: CircularProgressIndicator(
-                strokeWidth: 1,
-                color: Colors.white,
-              ),
-            )
+                padding: EdgeInsets.only(bottom: 10),
+                child: SpinKitWave(
+                  color: AppColors.secondaryColor,
+                  size: 20.0,
+                ))
           ],
         ),
       ),
@@ -57,9 +56,9 @@ class _SplashState extends State<Splash> {
 
   Future<void> checkLocalStorage() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    final phoneNumber = pref.getString("phone");
+    final phoneNumber = pref.getString("phone_number");
 
-    if (phoneNumber != null ) {
+    if (phoneNumber != null) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -67,7 +66,7 @@ class _SplashState extends State<Splash> {
               Screen(), // Replace with your main screen widget
         ),
       );
-    } else {
+    }else {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
