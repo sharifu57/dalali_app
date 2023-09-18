@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dalali_app/partials/colors.dart';
 import 'package:dalali_app/screens/authentication/login.dart';
+import 'package:dalali_app/screens/navigation/screen.dart';
 import 'package:dalali_app/service/api.dart';
 import 'package:dalali_app/service/config.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Verify extends StatefulWidget {
   final String phoneNumber;
@@ -97,7 +99,7 @@ class _VerifyState extends State<Verify> {
                     Text(
                       " ${widget.phoneNumber}",
                       style: TextStyle(fontWeight: FontWeight.bold),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -173,16 +175,24 @@ class _VerifyState extends State<Verify> {
     );
   }
 
-  Future<void> verifyOTP() async {
+  Future verifyOTP() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
     _formKey.currentState!.save();
 
+    // Timer(Duration(seconds: 3), () {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    // });
+
     setState(() {
       _isLoading = true;
     });
+
+    dispose();
 
     print("______print otp");
     print(_verifyFormData['otp']);
@@ -204,11 +214,23 @@ class _VerifyState extends State<Verify> {
 
       final response = await Dio().post(endpoint, data: data);
       print(response);
+      // ignore: unnecessary_null_comparison
       if (response != null) {
         print("____response is not null");
         if (response.statusCode == 200) {
-          print("______success");
+          print("_____success");
+          setState(() {
+            _isLoading = false;
+          });
+          print("${response.data?['data']['phone_number']}");
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString(
+              "phone_number", response.data?['data']['phone_number']);
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Screen()));
         } else {
+          print("____failed");
+
           showErrorDialog(response.data['message']);
           setState(() {
             _isLoading = false;
@@ -227,11 +249,6 @@ class _VerifyState extends State<Verify> {
       });
     } catch (error) {
       print("Error during OTP verification: $error");
-      setState(() {
-        _isLoading = false;
-      });
-    } finally {
-      showErrorDialog("Something is not Right");
       setState(() {
         _isLoading = false;
       });
