@@ -66,11 +66,11 @@ class _SplashState extends State<Splash> {
               Screen(), // Replace with your main screen widget
         ),
       );
-    }else {
+    } else {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Login(), // Replace with your main screen widget
+          builder: (context) => Screen(), // Replace with your main screen widget
         ),
       );
     }

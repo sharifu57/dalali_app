@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
     setState(() {
       properties = response.data;
     });
-
+    print(properties);
   }
 
   @override
@@ -67,12 +67,11 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                      child: Column(
+                  Column(
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: const Text(
                           "Welcome,",
                           style: TextStyle(color: Colors.black),
                         ),
@@ -88,12 +87,10 @@ class _HomeState extends State<Home> {
                         ),
                       )
                     ],
-                  )),
-                  Container(
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.notification_add_sharp)),
-                  )
+                  ),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.notification_add_sharp))
                 ],
               ),
             ),
@@ -158,7 +155,7 @@ class _HomeState extends State<Home> {
                       onPressed: () {
                         print("_____see for today");
                       },
-                      child: Text(
+                      child: const Text(
                         "See all",
                         style: TextStyle(
                             color: AppColors.primaryColor,
@@ -176,80 +173,76 @@ class _HomeState extends State<Home> {
                     itemCount: properties?.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext, index) {
-                      return Container(
-                        width: fullWidth - 40,
-                        child: Card(
-                          color: AppColors.primaryColor,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                height: fullHeight,
-                              )),
-                              Container(
-                                  padding: EdgeInsets.only(left: 20, right: 20),
-                                  alignment: Alignment.centerLeft,
-                                  height: fullHeight / 3,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "${properties?[index]['title']}",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "${properties?[index]['location']?['name']}",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ))
-                            ],
+                      final property = properties?[index];
+                      if (property != null) {
+                        final photos = property['photos'];
+
+                        return GestureDetector(
+                          onTap: () {
+                            print(property);
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                            child: Card(
+                              color: Colors.white,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: photos.isNotEmpty &&
+                                            photos[0]['url'] != null
+                                        ? Image.network(
+                                            '$path${photos[0]['url']}',
+                                            fit: BoxFit.contain,
+                                          )
+                                        : Text(""),
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      width: double.infinity,
+                                      child: Card(
+                                        color: AppColors.primaryColor,
+                                        child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      "${property['title']}",
+                                                      style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    )),
+                                                Container(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    "Tzs ${property['price']}",
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 10),
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                      ))
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        return Container(); // or another suitable widget
+                      }
                     }),
               ),
             )),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     const Text(
-            //       "Nearby Your Location",
-            //       style: TextStyle(
-            //           color: AppColors.primaryColor,
-            //           fontWeight: FontWeight.w600),
-            //     ),
-            //     TextButton(
-            //         onPressed: () {
-            //           print("_____see for today");
-            //         },
-            //         child: const Text(
-            //           "See More",
-            //           style: TextStyle(
-            //               color: AppColors.primaryColor,
-            //               fontWeight: FontWeight.w500),
-            //         ))
-            //   ],
-            // ),
-            // Expanded(child: SingleChildScrollView(
-            //   child: Container(
-            //     child: SafeArea(
-            //         child: ListView.builder(itemBuilder: (BuildContext, index) {
-            //       return Card();
-            //     })),
-            //   ),
-            // ))
           ],
         ),
       ),

@@ -331,10 +331,10 @@ class _ViewPropertyState extends State<ViewProperty> {
                                         child: Card(
                                           color: AppColors.primaryColor,
                                           child: IconButton(
-                                              onPressed: () {
+                                              onPressed                               : () {
                                                 call(widget.ownerPhone);
                                               },
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons.call_sharp,
                                                 color: Colors.white,
                                               )),
@@ -345,6 +345,9 @@ class _ViewPropertyState extends State<ViewProperty> {
                             ),
                           ),
                         ),
+                        Container(
+                          child: Text("Amenities"),
+                        )
                       ],
                     ),
                   ),
@@ -364,8 +367,8 @@ class _ViewPropertyState extends State<ViewProperty> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${formattedPrice}", // Replace with the actual price
-                          style: TextStyle(
+                          formattedPrice, // Replace with the actual price
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -378,7 +381,7 @@ class _ViewPropertyState extends State<ViewProperty> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.white,
                             onPrimary: AppColors.primaryColor,
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
