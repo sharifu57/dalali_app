@@ -28,8 +28,8 @@ class _VerifyState extends State<Verify> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    double fullHeight = MediaQuery.of(context).size.height;
-    double fullWidth = MediaQuery.of(context).size.width;
+    // double fullHeight = MediaQuery.of(context).size.height;
+    // double fullWidth = MediaQuery.of(context).size.width;
 
     OtpFieldController otpController = OtpFieldController();
     return Scaffold(
@@ -50,8 +50,7 @@ class _VerifyState extends State<Verify> {
         child: SafeArea(
             child: Container(
           padding: EdgeInsets.all(20),
-          height: fullHeight,
-          width: fullWidth,
+          // width: fullWidth,
           child: Column(
             children: [
               Container(
@@ -133,7 +132,7 @@ class _VerifyState extends State<Verify> {
                     verifyOTP();
                   },
                   child: SizedBox(
-                    width: fullWidth / 3,
+                    // width: fullWidth / 3,
                     child: _isLoading
                         ? const SpinKitWave(
                             color: AppColors.secondaryColor,
@@ -176,6 +175,7 @@ class _VerifyState extends State<Verify> {
   }
 
   Future verifyOTP() async {
+    // _isLoading = true;
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -192,67 +192,55 @@ class _VerifyState extends State<Verify> {
       _isLoading = true;
     });
 
-    dispose();
+    Timer(Duration(seconds: 3), () async {
+      try {
+        final submittedData = {
+          "phone_number": widget.phoneNumber,
+          "otp": _verifyFormData['otp'],
+        };
 
-    print("______print otp");
-    print(_verifyFormData['otp']);
+        print("____________start hre");
+        final endpoint = '${config['apiBaseUrl']}/tennant/verify_otp/';
+        final data = json.encode(submittedData);
 
-    try {
-      final submittedData = {
-        "phone_number": widget.phoneNumber,
-        "otp": _verifyFormData['otp'],
-      };
+        print("____________gete hre");
+        print(data);
+        print("______breaking here");
+        final response = await Dio().post(endpoint, data: data);
 
-      print("______submitted data");
-      print(submittedData);
-
-      final endpoint = '${config['apiBaseUrl']}/tennant/verify_otp/';
-      final data = json.encode(submittedData);
-      print("${config['apiBaseUrl']}/tennant/verify_otp/");
-      print("____url");
-      print(data);
-
-      final response = await Dio().post(endpoint, data: data);
-      print(response);
-      // ignore: unnecessary_null_comparison
-      if (response != null) {
-        print("____response is not null");
-        if (response.statusCode == 200) {
-          print("_____success");
-          setState(() {
-            _isLoading = false;
-          });
-          print("${response.data?['data']['phone_number']}");
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString(
-              "phone_number", response.data?['data']['phone_number']);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Screen()));
+        // ignore: unnecessary_null_comparison
+        if (response != null) {
+          print(response.statusCode);
+          print("______this is status code");
+          if (response.statusCode == 200) {
+            setState(() {
+              _isLoading = false;
+            });
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            await prefs.setString(
+                "phone_number", response.data?['data']['phone_number']);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const Screen()));
+          } else {
+            showErrorDialog(response.data['message']);
+            setState(() {
+              _isLoading = false;
+            });
+          }
         } else {
-          print("____failed");
-
           showErrorDialog(response.data['message']);
           setState(() {
             _isLoading = false;
           });
         }
-      } else {
-        print("______there is no rresponse");
-        showErrorDialog(response.data['message']);
+      } catch (error) {
+        showErrorDialog("${error}");
         setState(() {
           _isLoading = false;
         });
       }
-
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (error) {
-      print("Error during OTP verification: $error");
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    });
   }
 
   void showErrorDialog(String message) {

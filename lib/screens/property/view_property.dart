@@ -135,25 +135,25 @@ class _ViewPropertyState extends State<ViewProperty> {
                       right: 15,
                       child: Container(
                         padding: const EdgeInsets.only(top: 15),
-                        // child: GestureDetector(
-                        //   onTap: () {},
-                        //   child: Center(
-                        //     child: Card(
-                        //       color: AppColors.primaryColor,
-                        //       child: Center(
-                        //         child: IconButton(
-                        //             onPressed: () {
-                        //               // Navigator.push(context, LocationProperties(id: id, name: name))
-                        //             },
-                        //             icon: Icon(
-                        //               Icons.bookmark_border_outlined,
-                        //               color: Colors.white,
-                        //               size: 16,
-                        //             )),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Center(
+                            child: Card(
+                              color: AppColors.primaryColor,
+                              child: Center(
+                                child: IconButton(
+                                    onPressed: () {
+                                      // Navigator.push(context, LocationProperties(id: id, name: name))
+                                    },
+                                    icon: Icon(
+                                      Icons.bookmark_border_outlined,
+                                      color: Colors.white,
+                                      size: 16,
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ),
                       ))
                 ],
               ),
@@ -200,7 +200,7 @@ class _ViewPropertyState extends State<ViewProperty> {
                             child: ReadMoreText(
                               '${widget.description}',
                               trimLines: 2,
-                              preDataText: "AMANDA",
+                              // preDataText: "AMANDA",
                               preDataTextStyle:
                                   TextStyle(fontWeight: FontWeight.w600),
                               style: TextStyle(color: Colors.black),
@@ -278,49 +278,43 @@ class _ViewPropertyState extends State<ViewProperty> {
                                   Expanded(
                                       flex: 6,
                                       child: Container(
-                                        padding: EdgeInsets.only(left: 5),
+                                        padding: const EdgeInsets.only(left: 5),
                                         child: Column(
                                           children: [
-                                            Container(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 5),
-                                                    child: Text(
-                                                      "${widget.ownerFirstName}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      right: 5),
+                                                  child: Text(
+                                                    "${widget.ownerFirstName}",
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
-                                                  Container(
-                                                    child: Text(
-                                                      "${widget.ownerLastName}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                                                ),
+                                                Text(
+                                                  "${widget.ownerLastName}",
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )
+                                              ],
                                             ),
-                                            Container(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    child: Text("Owner: "),
-                                                  ),
-                                                  Container(
-                                                    child:
-                                                        Text("${widget.title}"),
-                                                  )
-                                                ],
-                                              ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  child: Text("Owner: "),
+                                                ),
+                                                Container(
+                                                  child:
+                                                      Text("${widget.title}"),
+                                                )
+                                              ],
                                             )
                                           ],
                                         ),
@@ -331,7 +325,7 @@ class _ViewPropertyState extends State<ViewProperty> {
                                         child: Card(
                                           color: AppColors.primaryColor,
                                           child: IconButton(
-                                              onPressed                               : () {
+                                              onPressed: () {
                                                 call(widget.ownerPhone);
                                               },
                                               icon: const Icon(

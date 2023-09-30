@@ -34,17 +34,16 @@ class _SplashState extends State<Splash> {
         color: AppColors.primaryColor,
         child: Column(
           children: [
-            Expanded(
-                child: Container(
-                    child: Center(
+            const Expanded(
+                child: Center(
               child: Text(
                 "Logo Here",
                 style: TextStyle(color: Colors.white),
               ),
-            ))),
+            )),
             Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: SpinKitWave(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: const SpinKitWave(
                   color: AppColors.secondaryColor,
                   size: 20.0,
                 ))
@@ -59,18 +58,21 @@ class _SplashState extends State<Splash> {
     final phoneNumber = pref.getString("phone_number");
 
     if (phoneNumber != null) {
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              Screen(), // Replace with your main screen widget
+              const Screen(), // Replace with your main screen widget
         ),
       );
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Screen(), // Replace with your main screen widget
+          builder: (context) =>
+              const Login(), // Replace with your main screen widget
         ),
       );
     }

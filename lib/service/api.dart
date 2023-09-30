@@ -6,9 +6,7 @@ Future sendPostRequest(BuildContext context, endpoint, dynamic data) async {
   try {
     final response = await Dio().post(endpoint, data: data);
 
-    print(
-      "_______print response ${response.data}",
-    );
+   
     if (response.data['status'] != 201) {
       // ErrorDialog.showErrorDialog(context, response.data['message'].toString());
     }

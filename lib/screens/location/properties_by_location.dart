@@ -114,28 +114,27 @@ class _LocationPropertiesState extends State<LocationProperties> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewProperty(
-                                                        property_id:
-                                                            property['id'],
-                                                        title:
-                                                            property['title'],
-                                                        price:
-                                                            property['price'],
-                                                        description: property[
-                                                            'description'],
-                                                        locationName: property[
-                                                            'location']['name'],
-                                                        ownerFirstName:
-                                                            property['owner']
-                                                                    ['user']
-                                                                ['first_name'],
-                                                        ownerLastName:
-                                                            property['owner']
-                                                                    ['user']
-                                                                ['last_name'],
-                                                                ownerPhone: property['owner']['phone_number'],
-                                                        photos: photos)));
+                                                builder: (context) => ViewProperty(
+                                                    property_id: property['id'],
+                                                    title: property['title'],
+                                                    price: property['price'],
+                                                    description:
+                                                        property['description'],
+                                                    locationName:
+                                                        property['location']
+                                                            ['name'],
+                                                    ownerFirstName:
+                                                        property['owner']
+                                                                ['user']
+                                                            ['first_name'],
+                                                    ownerLastName:
+                                                        property['owner']
+                                                                ['user']
+                                                            ['last_name'],
+                                                    ownerPhone:
+                                                        property['owner']
+                                                            ['phone_number'],
+                                                    photos: photos)));
                                       },
                                       child: ClipRRect(
                                         borderRadius: const BorderRadius.only(
@@ -143,7 +142,7 @@ class _LocationPropertiesState extends State<LocationProperties> {
                                           topRight: Radius.circular(20),
                                         ),
                                         child: Card(
-                                          color: Colors.white,
+                                          color: AppColors.primaryColor,
                                           child: Column(
                                             children: [
                                               Container(
@@ -151,53 +150,60 @@ class _LocationPropertiesState extends State<LocationProperties> {
                                                         photos[0]['url'] != null
                                                     ? Image.network(
                                                         '$path${photos[0]['url']}',
-                                                        fit: BoxFit.contain,
+                                                        fit: BoxFit.cover,
+                                                        height: 150,
+                                                        width: double.infinity,
                                                       )
-                                                    : Text(""),
+                                                    : Container(
+                                                        height: 150,
+                                                        color: Colors.grey,
+                                                        child: Center(
+                                                          child: Icon(
+                                                              Icons
+                                                                  .hourglass_empty_rounded,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 60),
+                                                        ),
+                                                      ),
                                               ),
                                               Container(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10),
-                                                  width: double.infinity,
-                                                  child: Card(
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                    child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10),
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child: Text(
-                                                                  "${property['title']}",
-                                                                  style: const TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500),
-                                                                )),
-                                                            Container(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Text(
-                                                                "Tzs ${property['price']}",
-                                                                style: const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        10),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        )),
-                                                  ))
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                width: double.infinity,
+                                                child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              "${property['title']}",
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            )),
+                                                        Container(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            "Tzs ${property['price']}",
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 10),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -216,7 +222,4 @@ class _LocationPropertiesState extends State<LocationProperties> {
       )),
     );
   }
-
-  
-
 }
